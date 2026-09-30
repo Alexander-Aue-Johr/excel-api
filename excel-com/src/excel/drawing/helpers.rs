@@ -74,6 +74,7 @@ pub(super) fn get_f64(
     let value = property_get(&target.dispatch, member(MemberId::new(id), false), vec![])?;
     value
         .as_f64()
+        .or_else(|| value.as_f32().map(f64::from))
         .or_else(|| value.as_i32().map(f64::from))
         .ok_or(ExcelComError::Unsupported { detail })
 }

@@ -139,6 +139,15 @@ impl OwnedVariant {
         Some(unsafe { self.0.Anonymous.Anonymous.Anonymous.dblVal })
     }
 
+    pub(crate) fn as_f32(&self) -> Option<f32> {
+        if self.vt() != VT_R4 {
+            return None;
+        }
+
+        // SAFETY: the checked VT_R4 tag selects fltVal in the VARIANT union.
+        Some(unsafe { self.0.Anonymous.Anonymous.Anonymous.fltVal })
+    }
+
     pub(crate) fn as_scode(&self) -> Option<i32> {
         if self.vt() != VT_ERROR {
             return None;
